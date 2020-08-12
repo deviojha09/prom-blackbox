@@ -1,0 +1,36 @@
+apiVersions: apps/v1
+kind: Deployment
+metadata:
+   labels:
+      app: blackbox-exporter
+   name: blackbox-exporter
+   namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: blackbox-exporter
+  replicas: 1
+  template:
+    metadata:
+      labels:
+         app: blackbox-exporter
+    spec:
+      containers:
+        -name: blackbox-exporter
+         image: prom/blackbox-exporter
+         args:
+           - "--config.file=/config/config.yaml"
+         ports:
+           - containerPort: 9115
+         volumeMounts:
+           - mountpath: /config
+             name: data
+         securityContext:
+           capabilities:
+              add: ["NET_RAW"]
+         restartPolicy: Always
+         volumes:
+           - configmap:
+               name: balcbox-exporter
+             name: data
+           
