@@ -1,0 +1,14 @@
+apiVersion: v1
+data:
+ config.yml:|
+   modules:
+     icmp:
+        prober: icmp
+        icmp:
+          prefered_ip_protocol: ip4
+kind: ConfigMap
+metadata:
+  labels:
+     app: blackbox-exporter
+name: blackbox-exporter
+namespace: default
